@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manjula Nagala | My Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0b0f1a;
+      --surface:   #111827;
+      --card:      #1a2233;
+      --border:    #1e2d45;
+      --accent:    #4f8ef7;
+      --accent2:   #7c3aed;
+      --accent3:   #10b981;
+      --text:      #e2e8f0;
+      --muted:     #6b7280;
+      --tag-bg:    #1e3a5f;
+      --tag-text:  #93c5fd;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Animated background grid ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(79,142,247,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,142,247,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(11,15,26,.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: 'Fira Code', monospace;
+      font-size: 1rem; font-weight: 500;
+      color: var(--accent);
+    }
+    .nav-brand span { color: var(--text); }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: .875rem; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+    }
+    .hero-inner { max-width: 780px; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(79,142,247,.12);
+      border: 1px solid rgba(79,142,247,.3);
+      border-radius: 100px;
+      padding: .35rem 1rem;
+      font-size: .78rem; font-weight: 500;
+      color: var(--accent);
+      letter-spacing: .04em; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge::before { content: '●'; font-size: .5rem; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      font-weight: 700; line-height: 1.15;
+      letter-spacing: -.02em;
+      margin-bottom: .6rem;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, #4f8ef7 0%, #7c3aed 50%, #10b981 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-family: 'Fira Code', monospace;
+      font-size: 1rem; color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+    .hero p {
+      font-size: 1.05rem; color: #94a3b8; line-height: 1.7;
+      margin-bottom: 2.25rem; max-width: 600px; margin-left: auto; margin-right: auto;
+    }
+    .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      padding: .75rem 1.75rem; border-radius: 8px;
+      font-size: .9rem; font-weight: 600;
+      text-decoration: none; cursor: pointer;
+      transition: all .2s; border: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(79,142,247,.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(79,142,247,.45); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-stats {
+      display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 3.5rem; padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 1.75rem; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-top: .2rem; }
+
+    /* ── SECTIONS WRAPPER ── */
+    main { position: relative; z-index: 1; }
+    section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-tag {
+      font-family: 'Fira Code', monospace;
+      font-size: .8rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: .1em;
+      margin-bottom: .75rem;
+    }
+    .section-header h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; }
+    .section-header p { color: var(--muted); margin-top: .6rem; font-size: .97rem; max-width: 540px; margin-left: auto; margin-right: auto; }
+
+    /* ── APP CARDS ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      display: flex; flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.5);
+      border-color: var(--accent);
+    }
+    .card-preview {
+      height: 10px;
+      width: 100%;
+    }
+    .card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .card-icon {
+      width: 46px; height: 46px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; margin-bottom: 1rem;
+    }
+    .card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: .5rem; }
+    .card p { font-size: .875rem; color: var(--muted); line-height: 1.6; flex: 1; }
+    .card-tags {
+      display: flex; flex-wrap: wrap; gap: .4rem;
+      margin-top: 1rem;
+    }
+    .tag {
+      background: var(--tag-bg); color: var(--tag-text);
+      font-size: .72rem; font-weight: 500;
+      padding: .25rem .65rem; border-radius: 100px;
+      font-family: 'Fira Code', monospace;
+    }
+    .card-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-status {
+      font-size: .75rem; color: var(--accent3);
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .card-status::before { content: '●'; font-size: .5rem; }
+    .card-link {
+      font-size: .8rem; font-weight: 600;
+      color: var(--accent); text-decoration: none;
+      display: flex; align-items: center; gap: .35rem;
+      transition: gap .2s;
+    }
+    .card-link:hover { gap: .6rem; }
+
+    /* colour accents per card */
+    .c1 .card-preview { background: linear-gradient(90deg, #4f8ef7, #7c3aed); }
+    .c1 .card-icon    { background: rgba(79,142,247,.15); }
+    .c2 .card-preview { background: linear-gradient(90deg, #10b981, #06b6d4); }
+    .c2 .card-icon    { background: rgba(16,185,129,.15); }
+    .c3 .card-preview { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+    .c3 .card-icon    { background: rgba(245,158,11,.15); }
+    .c4 .card-preview { background: linear-gradient(90deg, #7c3aed, #ec4899); }
+    .c4 .card-icon    { background: rgba(124,58,237,.15); }
+    .c5 .card-preview { background: linear-gradient(90deg, #06b6d4, #4f8ef7); }
+    .c5 .card-icon    { background: rgba(6,182,212,.15); }
+    .c6 .card-preview { background: linear-gradient(90deg, #ec4899, #f59e0b); }
+    .c6 .card-icon    { background: rgba(236,72,153,.15); }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1rem;
+      text-align: center;
+      transition: border-color .2s, transform .2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .skill-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+    .skill-name { font-size: .875rem; font-weight: 600; margin-bottom: .2rem; }
+    .skill-level { font-size: .75rem; color: var(--muted); }
+    .skill-bar { height: 3px; background: var(--border); border-radius: 100px; margin-top: .65rem; overflow: hidden; }
+    .skill-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+    }
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; } }
+    .about-text h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; }
+    .about-text p { color: #94a3b8; line-height: 1.75; margin-bottom: .9rem; font-size: .95rem; }
+    .about-highlights { display: flex; flex-direction: column; gap: .75rem; margin-top: 1.25rem; }
+    .highlight-item {
+      display: flex; align-items: center; gap: .85rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: .85rem 1.1rem;
+      font-size: .875rem;
+    }
+    .highlight-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .contact-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 2rem;
+    }
+    .contact-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; }
+    .contact-item {
+      display: flex; align-items: center; gap: .85rem;
+      padding: .7rem 0; border-bottom: 1px solid var(--border);
+      font-size: .875rem; color: var(--muted);
+    }
+    .contact-item:last-child { border-bottom: none; }
+    .contact-icon { font-size: 1rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      color: var(--muted); font-size: .85rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── SCROLL REVEAL (CSS) ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">mnagala<span>.R</span></div>
+  <ul class="nav-links">
+    <li><a href="#apps">Apps</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Principal Scientist I · Protein Analysis</div>
+    <h1>Manjula Nagala<br/><span class="gradient">R Shiny Portfolio</span></h1>
+    <p class="hero-sub">Syngenta · Data-driven science in R</p>
+    <p>Interactive data visualisations, statistical tools, and bioinformatics dashboards built with R Shiny — bridging cutting-edge protein science and digital innovation.</p>
+    <div class="hero-cta">
+      <a href="#apps" class="btn btn-primary">Explore Apps</a>
+      <a href="#about" class="btn btn-outline">About Me</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num" id="count-apps">0</div><div class="stat-label">Shiny Apps</div></div>
+      <div class="stat"><div class="stat-num" id="count-pkg">0</div><div class="stat-label">R Packages</div></div>
+      <div class="stat"><div class="stat-num" id="count-yr">0</div><div class="stat-label">Years in R</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- APPS -->
+<main>
+<section id="apps">
+  <div class="section-header reveal">
+    <div class="section-tag"># R Shiny Applications</div>
+    <h2>Interactive Tools & Dashboards</h2>
+    <p>Each app is purpose-built for protein science, data analysis, or laboratory workflows.</p>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- Card 1 -->
+    <div class="card c1 reveal">
+      <div class="card-preview"></div>
+      <div class="card-body">
+        <div class="card-icon">🧬</div>
+        <h3>Protein Sequence Analyser</h3>
+        <p>Upload FASTA sequences and explore amino acid composition, hydrophobicity plots, and physicochemical property summaries in seconds.</p>
+        <div class="card-tags">
+          <span class="tag">shiny</span>
+          <span class="tag">Biostrings</span>
+          <span class="tag">ggplot2</span>
+          <span class="tag">seqinr</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-status">Live</span>
+        <a href="#" class="card-link">Launch App →</a>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card c2 reveal">
+      <div class="card-preview"></div>
+      <div class="card-body">
+        <div class="card-icon">📊</div>
+        <h3>Assay Performance Dashboard</h3>
+        <p>Real-time QC monitoring for plate-based assays. Visualise Z-prime, CV%, signal-to-background, and flag outliers automatically.</p>
+        <div class="card-tags">
+          <span class="tag">shiny</span>
+          <span class="tag">plotly</span>
+          <span class="tag">dplyr</span>
+          <span class="tag">DT</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-status">Live</span>
+        <a href="#" class="card-link">Launch App →</a>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card c3 reveal">
+      <div class="card-preview"></div>
+      <div class="card-body">
+        <div class="card-icon">🔬</div>
+        <h3>Mass Spectrometry Explorer</h3>
+        <p>Interactive viewer for LC-MS/MS proteomics data. Filter by peptide confidence, map coverage, and compare across samples.</p>
+        <div class="card-tags">
+          <span class="tag">shiny</span>
+          <span class="tag">MSnbase</span>
+          <span class="tag">tidyverse</span>
+          <span class="tag">viridis</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-status">Live</span>
+        <a href="#" class="card-link">Launch App →</a>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card c4 reveal">
+      <div class="card-preview"></div>
+      <div class="card-body">
+        <div class="card-icon">📈</div>
+        <h3>Dose–Response Modeller</h3>
+        <p>Fit four-parameter logistic curves to bioactivity data, compute EC50/IC50, and export publication-ready figures with confidence bands.</p>
+        <div class="card-tags">
+          <span class="tag">shiny</span>
+          <span class="tag">drc</span>
+          <span class="tag">ggplot2</span>
+          <span class="tag">broom</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-status">Live</span>
+        <a href="#" class="card-link">Launch App →</a>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="card c5 reveal">
+      <div class="card-preview"></div>
+      <div class="card-body">
+        <div class="card-icon">🌐</div>
+        <h3>Expression Heatmap Studio</h3>
+        <p>Upload expression matrices (CSV/xlsx), apply clustering, and generate interactive heatmaps with annotation tracks and export options.</p>
+        <div class="card-tags">
+          <span class="tag">shiny</span>
+          <span class="tag">ComplexHeatmap</span>
+          <span class="tag">pheatmap</span>
+          <span class="tag">readxl</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-status">Live</span>
+        <a href="#" class="card-link">Launch App →</a>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="card c6 reveal">
+      <div class="card-preview"></div>
+      <div class="card-body">
+        <div class="card-icon">⚗️</div>
+        <h3>Statistical Reporting Tool</h3>
+        <p>Automated experiment summaries: ANOVA, Tukey HSD, and visualisation bundles packaged into downloadable HTML or PDF reports.</p>
+        <div class="card-tags">
+          <span class="tag">shiny</span>
+          <span class="tag">rmarkdown</span>
+          <span class="tag">emmeans</span>
+          <span class="tag">knitr</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-status">Live</span>
+        <a href="#" class="card-link">Launch App →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <div class="section-tag"># Technical Stack</div>
+    <h2>R Ecosystem & Tools</h2>
+    <p>The packages and frameworks powering every app in this portfolio.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal"><div class="skill-icon">⚡</div><div class="skill-name">Shiny</div><div class="skill-level">Advanced</div><div class="skill-bar"><div class="skill-bar-fill" style="width:95%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">🎨</div><div class="skill-name">ggplot2</div><div class="skill-level">Advanced</div><div class="skill-bar"><div class="skill-bar-fill" style="width:93%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">🔧</div><div class="skill-name">tidyverse</div><div class="skill-level">Advanced</div><div class="skill-bar"><div class="skill-bar-fill" style="width:92%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">📡</div><div class="skill-name">Bioconductor</div><div class="skill-level">Advanced</div><div class="skill-bar"><div class="skill-bar-fill" style="width:88%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">📉</div><div class="skill-name">plotly</div><div class="skill-level">Proficient</div><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">📋</div><div class="skill-name">R Markdown</div><div class="skill-level">Advanced</div><div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">🧮</div><div class="skill-name">Statistical Modelling</div><div class="skill-level">Advanced</div><div class="skill-bar"><div class="skill-bar-fill" style="width:87%"></div></div></div>
+    <div class="skill-card reveal"><div class="skill-icon">🗄️</div><div class="skill-name">SQL / Databricks</div><div class="skill-level">Proficient</div><div class="skill-bar"><div class="skill-bar-fill" style="width:78%"></div></div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <h2>About Manjula</h2>
+      <p>I'm a Principal Scientist I in Protein Analysis at Syngenta, using R to turn complex biological data into clear, actionable insight.</p>
+      <p>My focus spans high-throughput assay analysis, proteomics data pipelines, and building interactive tools that let scientists explore data without writing a single line of code.</p>
+      <p>This portfolio brings together apps I've built for internal use — from QC dashboards to statistical reporting engines — packaged as shareable Shiny applications.</p>
+      <div class="about-highlights">
+        <div class="highlight-item"><div class="highlight-dot"></div>Protein biochemistry & high-throughput screening</div>
+        <div class="highlight-item"><div class="highlight-dot"></div>Proteomics data analysis (LC-MS/MS)</div>
+        <div class="highlight-item"><div class="highlight-dot"></div>R Shiny app development & deployment</div>
+        <div class="highlight-item"><div class="highlight-dot"></div>Statistical modelling & experimental design</div>
+      </div>
+    </div>
+    <div class="contact-card reveal">
+      <h3>Get in Touch</h3>
+      <div class="contact-item"><span class="contact-icon">🏢</span> Syngenta, Production &amp; Supply</div>
+      <div class="contact-item"><span class="contact-icon">🔬</span> Principal Scientist I · Protein Analysis</div>
+      <div class="contact-item"><span class="contact-icon">📍</span> United Kingdom</div>
+      <div class="contact-item"><span class="contact-icon">💻</span> <a href="https://github.com/[your-github]" style="color:var(--accent)">github.com/[your-github]</a></div>
+      <div class="contact-item"><span class="contact-icon">🔗</span> <a href="https://linkedin.com/in/[your-linkedin]" style="color:var(--accent)">LinkedIn Profile</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p>Built with ❤️ &amp; R · Manjula Nagala · Syngenta · <a href="https://github.com/[your-github]">GitHub</a></p>
+</footer>
+
+<script>
+  // Scroll-reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Counter animation
+  function animateCount(id, target, suffix = '') {
+    const el = document.getElementById(id);
+    let current = 0;
+    const step = Math.ceil(target / 40);
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current + suffix;
+      if (current >= target) clearInterval(timer);
+    }, 35);
+  }
+  // Trigger counters when hero is visible (page load)
+  window.addEventListener('load', () => {
+    animateCount('count-apps', 6);
+    animateCount('count-pkg', 12);
+    animateCount('count-yr', 8, '+');
+  });
+</script>
+</body>
+</html>
